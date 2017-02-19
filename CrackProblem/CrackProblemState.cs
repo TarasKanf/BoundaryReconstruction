@@ -1,10 +1,9 @@
-﻿using CrackProblem.Helpers;
-using System;
-
-namespace CrackProblem
+﻿namespace CrackProblem
 {
     using Contracts;
     using Integrals;
+    using CrackProblem.Helpers;
+    using System;
 
     public class CrackProblemState
     {
@@ -74,7 +73,7 @@ namespace CrackProblem
 
         private double CoreFunction(double t, double tau)
         {
-            return - Integral.CoefficientForWeakSingular(t, PointsNumber / 2, tau) 
+            return - Integral.CoefficientForWeakSingular(t, PointsNumber, tau) 
                 + H(t, tau)* 2.0 * Math.PI 
                 / (PointsNumber);
         }

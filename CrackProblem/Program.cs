@@ -10,7 +10,7 @@ namespace CrackProblem
         static void Main(string[] args)
         {
             double radius = 2;
-            int pointsNumber = 16;
+            int pointsNumber = 32;
 
             ITestData testData = new PlanarTestData();
             //ITestData testData = new FundamentalSolutionTestData();
@@ -24,10 +24,10 @@ namespace CrackProblem
             Printer.Write(density);
             double[] solution = solver.BuildSolutionOn(density,
                 xFunc: SolutionCurveX,
-                yFunc: (t) => t / (2.0 * Math.PI) - 0.5,
+                yFunc: SolutionCurveY,
                 paramStart: 0,
                 paramEnd: 2 * Math.PI,
-                solutionPointsNumber: 6);
+                solutionPointsNumber: 8);
 
             DeviationCalculator calculator = new DeviationCalculator();
             double deviation = calculator.MaxDeviation(
@@ -49,12 +49,14 @@ namespace CrackProblem
 
         public static double SolutionCurveX(double param)
         {
-            return param / (2.0 * Math.PI) - 1.5;
+            //return param / (2.0 * Math.PI) - 1.5;
+            return 0;
         }
 
         public static double SolutionCurveY(double param)
         {
-            return param / (2.0 * Math.PI) - 0.5;
+            //return param / (2.0 * Math.PI) - 0.5;
+            return param/(2.0 * Math.PI) * 1.5 + 0.05;
         }
     }
 }

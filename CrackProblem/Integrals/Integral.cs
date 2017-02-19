@@ -8,6 +8,7 @@ namespace CrackProblem.Integrals
         // for periodik function on [0, 2*PI]
         public static double CalculateWithTrapeziumMethod(Func<double, double> f, int n)
         {
+            n = DevideByTwo(n);
             int N = 2 * n;
             double temp = 0;
             double h = Math.PI / n;
@@ -39,6 +40,7 @@ namespace CrackProblem.Integrals
         // for periodik function f on [0, 2*PI]
         public static double CalculateWithTrapeziumMethod(ICore f,int n) 
         {
+            n = DevideByTwo(n);
             int N = 2*n;
             double temp = 0;
             double h = Math.PI/n;
@@ -54,6 +56,7 @@ namespace CrackProblem.Integrals
         // for periodic hyper singular function f on [0, 2*PI] and f = g*/(2*(sin[(t-k)/2])^2)
         public static double CalculateWithHyperSingularCore(DoubleCore<double> f, int n)
         {
+            n = DevideByTwo(n);
             int N = 2 * n;
             double temp = 0;
             double h = Math.PI / n;
@@ -69,6 +72,7 @@ namespace CrackProblem.Integrals
         // for periodiс cores with smooth part f on [0, 2*PI]x[0, 2*PI]
         public static double CalculateWithWeakSingularCore(DoubleCore<double> f, int n)
         {
+            n = DevideByTwo(n);
             int N = 2 * n;
             double temp = 0;
             double h = Math.PI / n;
@@ -83,6 +87,7 @@ namespace CrackProblem.Integrals
 
         public static double CoefficientForWeakSingular(double t, int n, double ti)
         {
+            n = DevideByTwo(n);
             //якщо ln((4/e)*(...))
             double sum = 0;
             double delta_t = (Math.Abs(t - ti) < 1e-10) ? 0 : t - ti;
@@ -108,6 +113,7 @@ namespace CrackProblem.Integrals
         }
         private static double CoefficientForHyperSingular(double t, int n, double ti)
         {
+            n = DevideByTwo(n);
             double sum = 0;
             double delta_t = (Math.Abs(t - ti) < 1e-10) ? 0 : t - ti;
             for (int i = 1; i < n; i++)
@@ -117,6 +123,12 @@ namespace CrackProblem.Integrals
             sum *= -1.0 / (double)n;
             sum -= Math.Cos(n * (delta_t)) / 2.0;
             return sum;
+        }
+
+        private static int DevideByTwo(int n)
+        {
+            if (n % 2 != 0) throw new Exception("Two calculate integral points number must be even number");
+            return n / 2;
         }
     }
 }
