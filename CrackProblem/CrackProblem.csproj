@@ -63,6 +63,8 @@
     <Compile Include="LinearSystem\SystemOfEquations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\CoordinatesDeviationDoubleTestData.cs" />
+    <Compile Include="Tests\FundamentalSolutionDevidedTastData.cs" />
     <Compile Include="Tests\FundamentalSolutionTestData.cs" />
     <Compile Include="Tests\PlanarTestData.cs" />
   </ItemGroup>

@@ -10,10 +10,12 @@ namespace CrackProblem
         static void Main(string[] args)
         {
             double radius = 2;
-            int pointsNumber = 32;
+            int pointsNumber = 16;
 
-            ITestData testData = new PlanarTestData();
-            //ITestData testData = new FundamentalSolutionTestData();
+            //ITestData testData = new PlanarTestData();
+            ITestData testData = new FundamentalSolutionTestData();
+            //ITestData testData = new FundamentalSolutionDevidedTastData();
+            //ITestData testData = new CoordinatesDeviationDoubleTestData();
             CrackProblemState state = new CrackProblemState(radius, pointsNumber, testData);
             DirectProblemSolver solver = new DirectProblemSolver(state);
 
