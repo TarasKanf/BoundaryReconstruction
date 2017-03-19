@@ -52,13 +52,14 @@ namespace CrackProblem
         public static double SolutionCurveX(double param)
         {
             //return param / (2.0 * Math.PI) - 1.5;
-            return 0;
+            return param / (2.0 * Math.PI) * 1.5 + 0.05;
+           
         }
 
         public static double SolutionCurveY(double param)
         {
             //return param / (2.0 * Math.PI) - 0.5;
-            return param/(2.0 * Math.PI) * 1.5 + 0.05;
+            return 0;
         }
     }
 }

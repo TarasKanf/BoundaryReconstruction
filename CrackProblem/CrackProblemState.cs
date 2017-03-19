@@ -73,7 +73,7 @@
 
         private double CoreFunction(double t, double tau)
         {
-            return - Integral.CoefficientForWeakSingular(t, PointsNumber, tau) 
+            return - Integral.CoefficientForWeakSingular(t, PointsNumber, tau)
                 + H(t, tau)* 2.0 * Math.PI 
                 / (PointsNumber);
         }
@@ -132,7 +132,7 @@
                 });
 
             core.Prepare(tParam);
-            return 2.0 * Integral.CalculateWithTrapeziumMethod(core, PointsNumber) + OnCrackValueFunction(tParam);
+            return 2.0 * Integral.CalculateWithTrapeziumMethod(core, PointsNumber) + 2.0 * OnCrackValueFunction(tParam);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@
         {
             DoubleCore<Point> core = new DoubleCore<Point>(RightPartCore);
             core.Prepare(x);
-            return - 2.0 * Integral.CalculateWithTrapeziumMethod(core, PointsNumber);
+            return - Integral.CalculateWithTrapeziumMethod(core, PointsNumber);
         }
 
         private double RightPartCore(Point pointX, double tau)
@@ -161,7 +161,7 @@
 
             // Radius = |y|
             double yAbs = Radius;
-            return (firstTerm + secondTerm) / (2.0 * Math.PI * yAbs);
+            return Radius*(firstTerm + secondTerm) / (2.0 * Math.PI * yAbs);
         }
 
         private double SolutionBuilderCoreFunction(Point toFindSolutionOn, Point yPoint)
@@ -183,7 +183,7 @@
                  return SolutionBuilderCoreFunction(toFindSolutionOn, yPoint);
              };
 
-            return Integral.CalculateWithTrapeziumMethod(density, coreFunction)
+            return Integral.CalculateWithTrapeziumMethod(density, coreFunction) / 2.0
                 + PartialSolution(toFindSolutionOn);            
         }
     }
