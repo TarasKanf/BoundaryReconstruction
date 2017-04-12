@@ -10,7 +10,7 @@ namespace CrackProblem
         static void Main(string[] args)
         {
             double radius = 2;
-            int pointsNumber = 16;
+            int pointsNumber = 8;
 
             //ITestData testData = new PlanarTestData();
             ITestData testData = new FundamentalSolutionTestData();
@@ -46,13 +46,13 @@ namespace CrackProblem
             Printer.WriteLine("Solution :");
             Printer.Write(solution);
             Printer.WriteLine($"Deviation : {deviation}");
-            Console.ReadKey();
+            Console.ReadLine();
         }
 
         public static double SolutionCurveX(double param)
         {
             //return param / (2.0 * Math.PI) - 1.5;
-            return param / (2.0 * Math.PI) * 1.5 + 0.05;
+            return param / (2.0 * Math.PI) * 1.5 + 0.2;
            
         }
 

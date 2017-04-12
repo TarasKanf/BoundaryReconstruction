@@ -1,4 +1,5 @@
 ﻿using CrackProblem.Contracts;
+using CrackProblem.Helpers;
 using System;
 
 namespace CrackProblem.Integrals
@@ -63,6 +64,11 @@ namespace CrackProblem.Integrals
                 }
                 ti += H;
             }
+
+            Printer.WriteLine("Right part :");
+            Printer.Write(rightPart);
+            Printer.WriteLine("Matrix :");
+            Printer.Write(matrix);
         }
     }    
 }

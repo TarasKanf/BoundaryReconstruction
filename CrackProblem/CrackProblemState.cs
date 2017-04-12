@@ -74,7 +74,7 @@
         private double CoreFunction(double t, double tau)
         {
             return - Integral.CoefficientForWeakSingular(t, PointsNumber, tau)
-                + H(t, tau)* 2.0 * Math.PI 
+                + H(t, tau) * 2.0 * Math.PI
                 / (PointsNumber);
         }
 
@@ -91,8 +91,7 @@
 
                 return Math.Log(numerator / denominator)/(4.0 * Math.PI) 
                     + GrinFunction(t, tau);
-            }
-            else
+            } else
             {
                 double curveAbs = Math.Pow(InnerCurve.GetDerivetiveX(t), 2)
                     + Math.Pow(InnerCurve.GetDerivetiveY(t), 2);
@@ -130,9 +129,28 @@
                     Point pointX = new Point(InnerCurve.GetX(t), InnerCurve.GetY(t));
                     return RightPartCore(pointX, tau);
                 });
-
             core.Prepare(tParam);
             return 2.0 * Integral.CalculateWithTrapeziumMethod(core, PointsNumber) + 2.0 * OnCrackValueFunction(tParam);
+        }
+
+        private double RightPartCore(Point pointX, double tau)
+        {
+            //Printer.WriteLine(pointX.X.ToString() + " /// " + pointX.Y.ToString());
+            Point pointY = new Point(Radius * Math.Cos(tau), Radius * Math.Sin(tau));
+            double scalarProduct = pointX.X * pointY.X + pointX.Y * pointY.Y;
+            
+            double yDoubleAbs = Radius * Radius;
+            double xDoubleAbs = pointX.X * pointX.X + pointX.Y * pointX.Y;
+            
+            double deviationAbs = Math.Pow(pointX.X - pointY.X, 2) + Math.Pow(pointX.Y - pointY.Y, 2);
+            
+            double firstTerm = (scalarProduct - yDoubleAbs) / deviationAbs;
+            
+            double secondTerm = (yDoubleAbs * xDoubleAbs - Radius * Radius * scalarProduct) 
+                / (Math.Pow(Radius, 4) + xDoubleAbs * yDoubleAbs - 2.0 * Radius * Radius * scalarProduct);
+            // Radius = |y|
+            double yAbs = Radius;
+            return Radius*(firstTerm + secondTerm) / (2.0 * Math.PI * yAbs);
         }
 
         /// <summary>
@@ -144,24 +162,7 @@
         {
             DoubleCore<Point> core = new DoubleCore<Point>(RightPartCore);
             core.Prepare(x);
-            return - Integral.CalculateWithTrapeziumMethod(core, PointsNumber);
-        }
-
-        private double RightPartCore(Point pointX, double tau)
-        {
-            Point pointY = new Point(Radius * Math.Cos(tau), Radius * Math.Sin(tau));
-            double scalarProduct = pointX.X * pointY.X + pointX.Y * pointY.Y;
-            double yDoubleAbs = Radius * Radius;
-            double xDoubleAbs = pointX.X * pointX.X + pointX.Y * pointX.Y;
-            double deviationAbs = Math.Pow(pointX.X - pointY.X, 2) + Math.Pow(pointX.Y - pointY.Y, 2);
-
-            double firstTerm = (scalarProduct - yDoubleAbs) / deviationAbs;
-            double secondTerm = (yDoubleAbs * xDoubleAbs - Radius * Radius * scalarProduct) 
-                / (Math.Pow(Radius, 4) + xDoubleAbs * yDoubleAbs - 2.0 * Radius * Radius * scalarProduct);
-
-            // Radius = |y|
-            double yAbs = Radius;
-            return Radius*(firstTerm + secondTerm) / (2.0 * Math.PI * yAbs);
+            return -Integral.CalculateWithTrapeziumMethod(core, PointsNumber);
         }
 
         private double SolutionBuilderCoreFunction(Point toFindSolutionOn, Point yPoint)
@@ -184,7 +185,7 @@
              };
 
             return Integral.CalculateWithTrapeziumMethod(density, coreFunction) / 2.0
-                + PartialSolution(toFindSolutionOn);            
+                + PartialSolution(toFindSolutionOn);
         }
     }
 }

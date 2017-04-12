@@ -63,7 +63,7 @@ namespace CrackProblem.Integrals
             double sum = 0;
             for (int i = 0; i < N; i++)
             {
-                sum += f.GetValue(temp)*CoefficientForHyperSingular(f.Param,n,temp);
+                sum += f.GetValue(temp)*CoefficientForHyperSingular(f.Param,N,temp);
                 temp += h;
             }
             return sum *2.0* Math.PI ;
@@ -79,7 +79,7 @@ namespace CrackProblem.Integrals
             double sum = 0;
             for (int i = 0; i < N; i++)
             {
-                sum += f.GetValue(temp) * CoefficientForWeakSingular(f.Param, n, temp);
+                sum += f.GetValue(temp) * CoefficientForWeakSingular(f.Param, N, temp);
                 temp += h;
             }
             return sum * 2.0 * Math.PI;
