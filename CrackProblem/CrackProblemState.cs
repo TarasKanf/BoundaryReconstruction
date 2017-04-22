@@ -150,7 +150,8 @@
                 / (Math.Pow(Radius, 4) + xDoubleAbs * yDoubleAbs - 2.0 * Radius * Radius * scalarProduct);
             // Radius = |y|
             double yAbs = Radius;
-            return Radius*(firstTerm + secondTerm) / (2.0 * Math.PI * yAbs);
+            double result = Radius * (firstTerm + secondTerm) / (2.0 * Math.PI * yAbs);
+            return result * OnEdgeValueFunction(tau);
         }
 
         /// <summary>

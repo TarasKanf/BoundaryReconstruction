@@ -10,7 +10,7 @@ namespace CrackProblem
         static void Main(string[] args)
         {
             double radius = 2;
-            int pointsNumber = 8;
+            int pointsNumber = 16;
 
             //ITestData testData = new PlanarTestData();
             ITestData testData = new FundamentalSolutionTestData();
@@ -52,7 +52,8 @@ namespace CrackProblem
         public static double SolutionCurveX(double param)
         {
             //return param / (2.0 * Math.PI) - 1.5;
-            return param / (2.0 * Math.PI) * 1.5 + 0.2;
+            return param / (2.0 * Math.PI) * 1.5 + 0.05;
+            //return param / (2.0 * Math.PI) * 1.5 + 0.2;
            
         }
 
