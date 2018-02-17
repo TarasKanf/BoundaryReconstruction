@@ -8,7 +8,7 @@ using CrackProblem.Helpers;
 
 namespace CrackProblem.Tests
 {
-    public class PlanarTestData : ITestData
+    public class PlanarTestData : IDirectProblemTestData
     {
         public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => 1; 
 

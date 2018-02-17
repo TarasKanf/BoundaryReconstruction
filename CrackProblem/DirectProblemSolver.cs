@@ -13,14 +13,9 @@ namespace CrackProblem
     /// </summary>
     public class DirectProblemSolver
     {
-        private CrackProblemState _state;
+        private DirectProblemState _state;
 
-        public DirectProblemSolver(double radius, int pointsNumber)
-        {
-            _state = new CrackProblemState(radius, pointsNumber, new PlanarTestData());
-        }
-
-        public DirectProblemSolver(CrackProblemState state)
+        public DirectProblemSolver(DirectProblemState state)
         {
             _state = state;
         }
@@ -49,7 +44,7 @@ namespace CrackProblem
             double paramEnd,
             int solutionPointsNumber)
         {
-            double t = 0;
+            double t = paramStart;
             double h = (paramEnd - paramStart) / solutionPointsNumber;
             double[] result = new double[solutionPointsNumber];
 

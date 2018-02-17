@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CrackProblem.Tests
 {
-    public class CoordinatesDeviationDoubleTestData : ITestData
+    public class CoordinatesDeviationDoubleTestData : IDirectProblemTestData
     {
         public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => Solution(p);
         public Func<Point, double> OnOuterCurveValue { get; set; } = (Point p) => Solution(p);

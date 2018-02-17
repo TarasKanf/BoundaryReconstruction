@@ -1,14 +1,14 @@
 ﻿using CrackProblem.Contracts;
-using CrackProblem.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CrackProblem.Helpers;
 
 namespace CrackProblem.Tests
 {
-    public class FundamentalSolutionDevidedTastData : ITestData
+    public class FundamentalSolutionTestData : IDirectProblemTestData
     {
         public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
         public Func<Point, double> OnOuterCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
@@ -23,7 +23,7 @@ namespace CrackProblem.Tests
                 +
                 Math.Pow(x.Y - outerPoint.Y, 2));
 
-            double result = Math.Log(1.0/deviationAbs) / (2.0 * Math.PI);
+            double result = Math.Log(deviationAbs);
 
             return result;
         }

@@ -1,22 +1,24 @@
-﻿namespace CrackProblem
+﻿using System.Runtime.Remoting.Messaging;
+
+namespace CrackProblem
 {
     using Contracts;
     using Integrals;
     using CrackProblem.Helpers;
     using System;
 
-    public class CrackProblemState
+    public class DirectProblemState
     {
-        private double DeviationEps = 1e-7;
-        public double Radius;
-        public StarCurve OuterCurve;
+        protected double DeviationEps = 1e-7;
+        protected double Radius;
+        protected StarCurve OuterCurve;
         public ParametrizedCurve InnerCurve { get; set; }
         public DoubleCore<double> DirectProblemCore;
         public Func<double,double> RightPartFunction { get; }
         public int PointsNumber { get; set; }
-        private ITestData _testData { get; set; }
+        protected IDirectProblemTestData DirectProblemTestData { get; set; }
 
-        public CrackProblemState(double radius, int pointsNumber, ITestData testData)
+        public DirectProblemState(double radius, int pointsNumber, IDirectProblemTestData directProblemTestData)
         {
             Radius = radius;
             OuterCurve = new StarCurve(OuterRadialFunction);
@@ -25,20 +27,20 @@
             PointsNumber = pointsNumber;
             DirectProblemCore = new DoubleCore<double>(CoreFunction);
             RightPartFunction = DirectProblemRightPartFunction;
-            _testData = testData;
+            DirectProblemTestData = directProblemTestData;
         }
 
         #region Initails
         private double OnEdgeValueFunction(double t)
         {
             Point x = new Point(OuterCurve.GetX(t), OuterCurve.GetY(t));
-            return _testData.OnOuterCurveValue(x);
+            return DirectProblemTestData.OnOuterCurveValue(x);
         }
 
         private double OnCrackValueFunction(double t)
         {
             Point x = new Point(InnerCurve.GetX(t), InnerCurve.GetY(t));
-            return _testData.OnCrackCurveValue(x);
+            return DirectProblemTestData.OnCrackCurveValue(x);
         }
 
         private double OuterRadialFunction(double t)
@@ -187,6 +189,58 @@
 
             return Integral.CalculateWithTrapeziumMethod(density, coreFunction) / 2.0
                 + PartialSolution(toFindSolutionOn);
+        }
+        
+        // Functions to calculate solution derivative on outer curve
+        protected double Omega1(double tx)
+        {
+            DoubleCore<double> core = new DoubleCore<double>(Omega1CoreNotSingular);
+            core.Prepare(tx);
+            return -Integral.CalculateWithHyperSingularCore(core, PointsNumber); // перевірити обчисленн гіперсинугялрного інтегралу
+        }
+
+        protected double DataEquationOperatorCore(Point pointX, double tau)
+        {
+            Point pointY = new Point(InnerCurve.GetX(tau), InnerCurve.GetY(tau));
+            double scalarProduct = pointX.X * pointY.X + pointX.Y * pointY.Y;
+
+            double xDoubleAbs = Radius * Radius;
+            double yDoubleAbs = pointY.X * pointY.X + pointY.Y * pointY.Y;
+
+            double deviationAbs = Math.Pow(pointX.X - pointY.X, 2) + Math.Pow(pointX.Y - pointY.Y, 2);
+
+            double firstTerm = (scalarProduct - xDoubleAbs) / deviationAbs;
+
+            double secondTerm = (yDoubleAbs * xDoubleAbs - Radius * Radius * scalarProduct)
+                / (Math.Pow(Radius, 4) + xDoubleAbs * yDoubleAbs - 2.0 * Radius * Radius * scalarProduct);
+            // Radius = |y|
+            double xAbs = Radius;
+            double result = (firstTerm + secondTerm) / (2.0 * Math.PI * xAbs);
+            return result;
+        }
+
+        private double Omega1CoreNotSingular(double tx, double ty)
+        {
+            return RightPartFunction(ty) / (2.0 * Math.PI * Radius);
+        }
+
+        public double[] BuildSolutionDerivativeOnOuterCurve(double[] density)
+        {
+            var descretePoints = IntegralEquationDiscretezer.GetDiscretePoints(PointsNumber);
+            var solutionDerivative = new double[descretePoints.Length];
+            for (int i = 0; i < descretePoints.Length; i++)
+            {
+
+                var core = new DoubleCore<Point>(DataEquationOperatorCore);
+                core.Prepare(new Point(
+                    OuterCurve.GetX(descretePoints[i]),
+                    OuterCurve.GetY(descretePoints[i])));
+
+                solutionDerivative[i] = Integral.CalculateWithTrapeziumMethod(density, core) / 2.0
+                + Omega1(descretePoints[i]);
+            }
+
+            return solutionDerivative;
         }
     }
 }

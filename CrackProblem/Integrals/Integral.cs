@@ -37,6 +37,22 @@ namespace CrackProblem.Integrals
             return sum * Math.PI / n;
         }
 
+        public static double CalculateWithTrapeziumMethod(double[] density, ICore f)
+        {
+            if (density.Length % 2 != 0) throw new ArgumentException("Density must have even length");
+            int N = density.Length;
+            int n = density.Length / 2;
+            double temp = 0;
+            double h = Math.PI / n;
+            double sum = 0;
+            for (int i = 0; i < N; i++)
+            {
+                sum += density[i] * f.GetValue(temp);
+                temp += h;
+            }
+            return sum * Math.PI / n;
+        }
+
         // for periodik function f on [0, 2*PI]
         public static double CalculateWithTrapeziumMethod(ICore f,int n) 
         {
