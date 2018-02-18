@@ -1,8 +1,9 @@
 ﻿using System;
+using CrackProblem.Contracts;
 
 namespace CrackProblem.Helpers
 {
-    public class TrigonPolinom
+    public class TrigonPolinom : ISource<double>
     {
         public int N { get { return n; } }
         private int n;
@@ -50,12 +51,8 @@ namespace CrackProblem.Helpers
             }
             return suma;
         }
-        public bool Add(TrigonPolinom tp)
+        public bool Add(ISource<double> tp)
         {
-            if (tp.N != n)
-            {
-                return false;
-            }
             double[] r = new double[2 * n];
             double h = Math.PI / n;
             double temp = 0;

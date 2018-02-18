@@ -4,7 +4,7 @@ using System;
 
 namespace CrackProblem.Integrals
 {
-    public class IntegralEquationDiscretezer
+    public class IntegralTwoCoreEquationDiscretezer
     {
         private int pointsNumber = 0;
         public int PointsNumber
@@ -27,13 +27,15 @@ namespace CrackProblem.Integrals
         }
 
         private readonly Func<double,double> RightPartFunction;
-        private readonly DoubleCore<double> Core;
-        
-        public IntegralEquationDiscretezer(int pointsNumber, DoubleCore<double> core, Func<double,double> rightPartFunction)
+        private readonly DoubleCore<double> CoreFirst;
+        private readonly DoubleCore<double> CoreSecond;
+
+        public IntegralTwoCoreEquationDiscretezer(int pointsNumber, DoubleCore<double> core1, DoubleCore<double> core2, Func<double, double> rightPartFunction)
         {
             PointsNumber = pointsNumber;
-            RightPartFunction = rightPartFunction;            
-            Core = core;
+            RightPartFunction = rightPartFunction;
+            CoreFirst = core1;
+            CoreSecond = core2;
         }
 
         public static double CalculateDiscreteStep(int pointsNumber)
@@ -54,7 +56,7 @@ namespace CrackProblem.Integrals
             return points;
         }
 
-        public void FormDiscreteEquation(out double[,] matrix, out double[] rightPart, Func<double,int, double> matrixModifier = null, Func<double, int, double> rightPartModifier = null )
+        public void FormDiscreteEquation(out double[,] matrix, out double[] rightPart, int columnsNumber, Func<double, int, double> rightPartModifier)
         {
             double H = CalculateDiscreteStep(PointsNumber);
 
@@ -68,17 +70,19 @@ namespace CrackProblem.Integrals
             }
 
             // calculate matrix
-            matrix = new double[PointsNumber, PointsNumber];
+            int columnsPerCore = columnsNumber  / 2; // chebichev polinom power
+            matrix = new double[PointsNumber,columnsNumber];
             double sj = 0;
             ti = 0;
+
             for (int i = 0; i < PointsNumber; i++)
             {
-                Core.Prepare(ti);             
-                sj = 0;
-                for (int j = 0; j < PointsNumber; j++)
+                CoreFirst.Prepare(ti);
+                CoreSecond.Prepare(ti);
+                for (int k = 0; k < columnsPerCore; k++)
                 {
-                    matrix[i, j] = matrixModifier?.Invoke(Core.GetValue(sj), j) ?? Core.GetValue(sj);
-                    sj += H;
+                    matrix[i, k] = CoreFirst.GetValue(k);
+                    matrix[i, k + columnsPerCore] = CoreSecond.GetValue(k);
                 }
                 ti += H;
             }

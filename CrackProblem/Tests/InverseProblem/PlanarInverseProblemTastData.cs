@@ -12,7 +12,7 @@ namespace CrackProblem.Tests
     {
         public ParametrizedCurve CorrectInnerCurve { get; set; } = new ParametrizedCurve(InnerXFuntion, InnerYFunction,
                 InnerXFuntionDerivetive, InnerYFunctionDerivetive);
-        public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => 1;
+        public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => 0;
         public Func<Point, double> OnOuterCurveValue { get; set; } = (Point p) => 1;
         public IDirectProblemTestData GetDirectProblemData()
         {

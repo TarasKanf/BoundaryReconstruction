@@ -9,6 +9,8 @@ namespace CrackProblem
     {
         static void Main(string[] args)
         {
+            Printer.Append = false;
+            Printer.Mode = WriteMode.File;
             //SolveDirectProblem();
             SolveInverseProblem();
         }
@@ -17,11 +19,35 @@ namespace CrackProblem
         {
             double radius = 2;
             int pointsNumber = 16;
+            int chebishevpolinomPower = 3;
 
             IInversProblemTestData testData = new PlanarInverseProblemTastData();
-            InverseCrackProblemState state = new InverseCrackProblemState(radius, pointsNumber, testData);
+            InverseCrackProblemState state = new InverseCrackProblemState(radius, pointsNumber, chebishevpolinomPower, testData);
+            state.InnerCurve = new ParametrizedCurve(InnerXFuntion,InnerYFunction, InnerXFuntionDerivetive, InnerYFunctionDerivetive);
             InverseProblemSolver solver = new InverseProblemSolver(state);
             solver.CalculateCurve();
+        }
+
+        private static double InnerXFuntion(double t)
+        {
+            return Math.Cos(t) + 0.3; // TODO
+        }
+
+        private static double InnerXFuntionDerivetive(double t)
+        {
+            return 1;
+            //return - Math.Sin(t);
+        }
+
+        private static double InnerYFunction(double t)
+        {
+            return Math.Cos(t) + 0.3; // TODO
+        }
+
+        private static double InnerYFunctionDerivetive(double t)
+        {
+            return 1;
+            //return - Math.Sin(t);
         }
 
         public static void SolveDirectProblem()

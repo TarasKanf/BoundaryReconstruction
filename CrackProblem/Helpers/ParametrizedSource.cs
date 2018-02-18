@@ -3,7 +3,7 @@ using System;
 
 namespace CrackProblem.Helpers
 {
-    public class ParametrizedSource : ISource
+    public class ParametrizedSource : ISource<double>
     {
         private Func<double, double> _function;
 

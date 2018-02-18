@@ -12,7 +12,7 @@ namespace CrackProblem
         protected double DeviationEps = 1e-7;
         protected double Radius;
         protected StarCurve OuterCurve;
-        public ParametrizedCurve InnerCurve { get; set; }
+        public IParametrizedCurve InnerCurve { get; set; }
         public DoubleCore<double> DirectProblemCore;
         public Func<double,double> RightPartFunction { get; }
         public int PointsNumber { get; set; }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CrackProblem.Contracts
 {
-    public interface ISource
+    public interface ISource<T>
     {
-        double Value(double x);
+        T Value(T x);
     }
 }

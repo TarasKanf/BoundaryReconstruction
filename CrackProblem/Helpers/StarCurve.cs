@@ -5,9 +5,9 @@ namespace CrackProblem.Helpers
 {
     public class StarCurve : IParametrizedCurve
     {
-        private ISource valueSource;
+        private ISource<double> valueSource;
 
-        public StarCurve(ISource radialFunction)
+        public StarCurve(ISource<double> radialFunction)
         {
             valueSource = radialFunction;
         }
@@ -25,6 +25,16 @@ namespace CrackProblem.Helpers
         public double GetY(double t)
         {
             return valueSource.Value(t) * Math.Sin(t);
+        }
+
+        public double GetDerivetiveX(double t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetDerivetiveY(double t)
+        {
+            throw new NotImplementedException();
         }
     }
 }

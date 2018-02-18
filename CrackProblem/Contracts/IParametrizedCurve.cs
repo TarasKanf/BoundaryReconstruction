@@ -10,5 +10,7 @@ namespace CrackProblem.Contracts
     {
         double GetX(double t);
         double GetY(double t);
+        double GetDerivetiveX(double t);
+        double GetDerivetiveY(double t);
     }
 }

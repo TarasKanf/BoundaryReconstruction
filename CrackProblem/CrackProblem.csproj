@@ -50,6 +50,9 @@
     <Compile Include="Contracts\IParametrizedCurve.cs" />
     <Compile Include="Contracts\ISource.cs" />
     <Compile Include="Contracts\IDirectProblemTestData.cs" />
+    <Compile Include="Helpers\ChebishevPolinom.cs" />
+    <Compile Include="Helpers\ApproxParametrizedCurve.cs" />
+    <Compile Include="Integrals\IntegralTwoCoreEquationDiscretezer.cs" />
     <Compile Include="InverseCrackProblemState.cs" />
     <Compile Include="DirectProblemState.cs" />
     <Compile Include="InverseProblemSolver.cs" />
