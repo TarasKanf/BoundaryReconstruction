@@ -34,7 +34,8 @@ namespace CrackProblem
             double sj = 0;
             for (int j = 0; j < PointsNumber; j++)
             {
-                double x = InnerCurve.GetX(sj), y = InnerCurve.GetY(sj);
+                double x = InnerCurve.GetX(sj), y = InnerCurve.GetY(sj),
+                        dx = InnerCurve.GetDerivetiveX(sj), dy = InnerCurve.GetDerivetiveY(sj);
 
                 double denominator = x * x + y * y
                     + Radius * Radius - 2.0 * x * Radius * Math.Cos(t)
@@ -43,8 +44,11 @@ namespace CrackProblem
                                    * (2.0 * x - 2.0 * Radius * Math.Cos(t))
                                    / (2.0 * Math.PI * Radius * Math.Pow(denominator, 2));
                 double secondTerm = x / (Math.PI * Radius * denominator);
-                double result = firstTerm + secondTerm;
-                coreSum += result * Density[j] * Math.Cos(k * sj);
+                double result = (firstTerm + secondTerm)/2.0;
+                double derivetiveNorm = dx*dx + dy*dy;
+                double dataEquationCore = DataEquationOperatorCore(new Point(Radius*Math.Cos(t), Radius*Math.Sin(t)),
+                    new Point(x, y));
+                coreSum += Density[j] * (result * Math.Cos(k * sj) - dataEquationCore * k * dx * Math.Sin(k * sj) / derivetiveNorm);
                 sj += H;
             }
             return coreSum;
@@ -57,7 +61,8 @@ namespace CrackProblem
             double sj = 0;
             for (int j = 0; j < PointsNumber; j++)
             {
-                double x = InnerCurve.GetX(sj), y = InnerCurve.GetY(sj);
+                double x = InnerCurve.GetX(sj), y = InnerCurve.GetY(sj),
+                          dx = InnerCurve.GetDerivetiveX(sj), dy = InnerCurve.GetDerivetiveY(sj);
 
                 double denominator = x * x + y * y
                     + Radius * Radius - 2.0 * x * Radius * Math.Cos(t)
@@ -66,8 +71,11 @@ namespace CrackProblem
                                    * (2.0 * y - 2.0 * Radius * Math.Sin(t))
                                    / (2.0 * Math.PI * Radius * Math.Pow(denominator, 2));
                 double secondTerm = y / (Math.PI * Radius * denominator);
-                double result = firstTerm + secondTerm;
-                coreSum += result*Density[j]*Math.Cos(k*sj);
+                double result = (firstTerm + secondTerm)/2.0;
+                double derivetiveNorm = dx * dx + dy * dy;
+                double dataEquationCore = DataEquationOperatorCore(new Point(Radius * Math.Cos(t), Radius * Math.Sin(t)),
+                   new Point(x, y));
+                coreSum += Density[j] * (result * Math.Cos(k*sj) - dataEquationCore * k * dy * Math.Sin(k * sj) / derivetiveNorm);
                 sj += H;
             }
             return coreSum;
@@ -80,7 +88,7 @@ namespace CrackProblem
                 OuterCurve.GetX(t),
                 OuterCurve.GetY(t)));
 
-           var result = - Integral.CalculateWithTrapeziumMethod(Density, core) / 2.0
+            var result = - Integral.CalculateWithTrapeziumMethod(Density, core)
             - Omega1(t);
             return result;
         }

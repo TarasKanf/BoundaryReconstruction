@@ -40,11 +40,12 @@ namespace CrackProblem
             double[] points = IntegralEquationDiscretezer.GetDiscretePoints(_state.PointsNumber);
             Printer.WriteLine("Innitial inner curve X:");
             Printer.Write(GetCurveValues(_state.InnerCurve, points, onX: true));
-            Printer.WriteLine("Innitial inner curve X:");
+            Printer.WriteLine("Innitial inner curve Y:");
             Printer.Write(GetCurveValues(_state.InnerCurve, points, onX: false));
 
-            bool innnerCurveFound = false;
-            while (!innnerCurveFound)
+            bool innerCurveFound = false;
+            int iteration = 0;
+            while (iteration < 6 )
             {
                 DirectProblemSolver solver = new DirectProblemSolver(_state);
                 _state.Density = solver.CalculateDensity();
@@ -68,6 +69,7 @@ namespace CrackProblem
                 Printer.Write(GetCurveValues(correctedCurve, points, onX: false));
 
                 _state.InnerCurve = correctedCurve;
+                iteration++;
             }
         }
 
@@ -86,7 +88,7 @@ namespace CrackProblem
                 (value, i) => _state.DerivativeOnOuterCurve[i] + value);
 
             var tihanovRegularization = new TihanovRegularization(matrix, rightPart, rightPart.Length, columnsNumber);
-            var lambda = 0.01;
+            var lambda = 0.1;
             var curveCorrection = tihanovRegularization.Solve(lambda);
             return curveCorrection;
         }

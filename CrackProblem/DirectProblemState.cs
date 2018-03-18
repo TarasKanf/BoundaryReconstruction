@@ -196,12 +196,32 @@ namespace CrackProblem
         {
             DoubleCore<double> core = new DoubleCore<double>(Omega1CoreNotSingular);
             core.Prepare(tx);
-            return -Integral.CalculateWithHyperSingularCore(core, PointsNumber); // перевірити обчисленн гіперсинугялрного інтегралу
+            return - Integral.CalculateWithHyperSingularCore(core, PointsNumber); // перевірити обчисленн гіперсинугялрного інтегралу
         }
 
         protected double DataEquationOperatorCore(Point pointX, double tau)
         {
             Point pointY = new Point(InnerCurve.GetX(tau), InnerCurve.GetY(tau));
+            return DataEquationOperatorCore(pointX, pointY);
+            //double scalarProduct = pointX.X * pointY.X + pointX.Y * pointY.Y;
+
+            //double xDoubleAbs = Radius * Radius;
+            //double yDoubleAbs = pointY.X * pointY.X + pointY.Y * pointY.Y;
+
+            //double deviationAbs = Math.Pow(pointX.X - pointY.X, 2) + Math.Pow(pointX.Y - pointY.Y, 2);
+
+            //double firstTerm = (scalarProduct - xDoubleAbs) / deviationAbs;
+
+            //double secondTerm = (yDoubleAbs * xDoubleAbs - Radius * Radius * scalarProduct)
+            //    / (Math.Pow(Radius, 4) + xDoubleAbs * yDoubleAbs - 2.0 * Radius * Radius * scalarProduct);
+            //// Radius = |y|
+            //double xAbs = Radius;
+            //double result = (firstTerm + secondTerm) / (4.0 * Math.PI * xAbs); // похідну по нормалі поділено на два
+            //return result;
+        }
+
+        protected double DataEquationOperatorCore(Point pointX, Point pointY)
+        {
             double scalarProduct = pointX.X * pointY.X + pointX.Y * pointY.Y;
 
             double xDoubleAbs = Radius * Radius;
@@ -215,7 +235,7 @@ namespace CrackProblem
                 / (Math.Pow(Radius, 4) + xDoubleAbs * yDoubleAbs - 2.0 * Radius * Radius * scalarProduct);
             // Radius = |y|
             double xAbs = Radius;
-            double result = (firstTerm + secondTerm) / (2.0 * Math.PI * xAbs);
+            double result = (firstTerm + secondTerm) / (4.0 * Math.PI * xAbs); // похідну по нормалі поділено на два
             return result;
         }
 
@@ -236,7 +256,7 @@ namespace CrackProblem
                     OuterCurve.GetX(descretePoints[i]),
                     OuterCurve.GetY(descretePoints[i])));
 
-                solutionDerivative[i] = Integral.CalculateWithTrapeziumMethod(density, core) / 2.0
+                solutionDerivative[i] = Integral.CalculateWithTrapeziumMethod(density, core)
                 + Omega1(descretePoints[i]);
             }
 

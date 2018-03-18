@@ -19,7 +19,7 @@ namespace CrackProblem
         {
             double radius = 2;
             int pointsNumber = 16;
-            int chebishevpolinomPower = 3;
+            int chebishevpolinomPower = 5;
 
             IInversProblemTestData testData = new PlanarInverseProblemTastData();
             InverseCrackProblemState state = new InverseCrackProblemState(radius, pointsNumber, chebishevpolinomPower, testData);
@@ -30,7 +30,7 @@ namespace CrackProblem
 
         private static double InnerXFuntion(double t)
         {
-            return Math.Cos(t) + 0.3; // TODO
+            return Math.Cos(t) + 0.2; // TODO
         }
 
         private static double InnerXFuntionDerivetive(double t)
@@ -41,7 +41,7 @@ namespace CrackProblem
 
         private static double InnerYFunction(double t)
         {
-            return Math.Cos(t) + 0.3; // TODO
+            return Math.Cos(t) + 0.2; // TODO
         }
 
         private static double InnerYFunctionDerivetive(double t)
