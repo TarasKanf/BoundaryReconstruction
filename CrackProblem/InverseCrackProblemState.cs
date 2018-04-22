@@ -41,14 +41,15 @@ namespace CrackProblem
                     + Radius * Radius - 2.0 * x * Radius * Math.Cos(t)
                     - 2.0 * y * Radius * Math.Sin(t);
                 double firstTerm = -(x * x + y * y - Radius * Radius)
-                                   * (2.0 * x - 2.0 * Radius * Math.Cos(t))
-                                   / (2.0 * Math.PI * Radius * Math.Pow(denominator, 2));
+                    * (2.0 * x - 2.0 * Radius * Math.Cos(t))
+                    / (2.0 * Math.PI * Radius * Math.Pow(denominator, 2));
                 double secondTerm = x / (Math.PI * Radius * denominator);
                 double result = (firstTerm + secondTerm)/2.0;
                 double derivetiveNorm = dx*dx + dy*dy;
                 double dataEquationCore = DataEquationOperatorCore(new Point(Radius*Math.Cos(t), Radius*Math.Sin(t)),
                     new Point(x, y));
-                coreSum += Density[j] * (result * Math.Cos(k * sj) - dataEquationCore * k * dx * Math.Sin(k * sj) / derivetiveNorm);
+                coreSum += (2.0*Math.PI/PointsNumber)*Density[j]
+                           *(result*Math.Cos(k*sj) - dataEquationCore * k * dx * Math.Sin(k * sj) / derivetiveNorm); // чи правильна похідна полінома чебишова
                 sj += H;
             }
             return coreSum;
@@ -68,14 +69,15 @@ namespace CrackProblem
                     + Radius * Radius - 2.0 * x * Radius * Math.Cos(t)
                     - 2.0 * y * Radius * Math.Sin(t);
                 double firstTerm = -(x * x + y * y - Radius * Radius)
-                                   * (2.0 * y - 2.0 * Radius * Math.Sin(t))
-                                   / (2.0 * Math.PI * Radius * Math.Pow(denominator, 2));
+                    * (2.0 * y - 2.0 * Radius * Math.Sin(t))
+                    / (2.0 * Math.PI * Radius * Math.Pow(denominator, 2));
                 double secondTerm = y / (Math.PI * Radius * denominator);
                 double result = (firstTerm + secondTerm)/2.0;
                 double derivetiveNorm = dx * dx + dy * dy;
                 double dataEquationCore = DataEquationOperatorCore(new Point(Radius * Math.Cos(t), Radius * Math.Sin(t)),
                    new Point(x, y));
-                coreSum += Density[j] * (result * Math.Cos(k*sj) - dataEquationCore * k * dy * Math.Sin(k * sj) / derivetiveNorm);
+                coreSum += (2.0*Math.PI/PointsNumber)*
+                           Density[j]*(result*Math.Cos(k*sj) - dataEquationCore * k * dy * Math.Sin(k * sj) / derivetiveNorm);// чи правильна похідна полінома чебишова
                 sj += H;
             }
             return coreSum;

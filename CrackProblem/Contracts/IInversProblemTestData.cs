@@ -7,7 +7,7 @@ namespace CrackProblem.Contracts
     {
         ParametrizedCurve CorrectInnerCurve { get; set; }
         Func<Point, double> OnCrackCurveValue { get; set; }
-        Func<Point, double> OnOuterCurveValue { get; set; }
+        Func<double, double> OnOuterCurveValue { get; set; }
 
         IDirectProblemTestData GetDirectProblemData();
     }

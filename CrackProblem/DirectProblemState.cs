@@ -15,6 +15,10 @@ namespace CrackProblem
         public IParametrizedCurve InnerCurve { get; set; }
         public DoubleCore<double> DirectProblemCore;
         public Func<double,double> RightPartFunction { get; }
+
+        /// <summary>
+        /// Real number of points/ Notice <see cref="PointsNumber"/> is twice bigger than n in trigonometric quadratures
+        /// </summary>
         public int PointsNumber { get; set; }
         protected IDirectProblemTestData DirectProblemTestData { get; set; }
 
@@ -33,8 +37,8 @@ namespace CrackProblem
         #region Initails
         private double OnEdgeValueFunction(double t)
         {
-            Point x = new Point(OuterCurve.GetX(t), OuterCurve.GetY(t));
-            return DirectProblemTestData.OnOuterCurveValue(x);
+            //Point x = new Point(OuterCurve.GetX(t), OuterCurve.GetY(t));
+            return DirectProblemTestData.OnOuterCurveValue(t);
         }
 
         private double OnCrackValueFunction(double t)
@@ -103,7 +107,7 @@ namespace CrackProblem
                     + GrinFunction(t, t);
 
                 return result;
-            }            
+            }
         }
 
         private double GrinFunction(double t, double tau)
@@ -203,21 +207,6 @@ namespace CrackProblem
         {
             Point pointY = new Point(InnerCurve.GetX(tau), InnerCurve.GetY(tau));
             return DataEquationOperatorCore(pointX, pointY);
-            //double scalarProduct = pointX.X * pointY.X + pointX.Y * pointY.Y;
-
-            //double xDoubleAbs = Radius * Radius;
-            //double yDoubleAbs = pointY.X * pointY.X + pointY.Y * pointY.Y;
-
-            //double deviationAbs = Math.Pow(pointX.X - pointY.X, 2) + Math.Pow(pointX.Y - pointY.Y, 2);
-
-            //double firstTerm = (scalarProduct - xDoubleAbs) / deviationAbs;
-
-            //double secondTerm = (yDoubleAbs * xDoubleAbs - Radius * Radius * scalarProduct)
-            //    / (Math.Pow(Radius, 4) + xDoubleAbs * yDoubleAbs - 2.0 * Radius * Radius * scalarProduct);
-            //// Radius = |y|
-            //double xAbs = Radius;
-            //double result = (firstTerm + secondTerm) / (4.0 * Math.PI * xAbs); // похідну по нормалі поділено на два
-            //return result;
         }
 
         protected double DataEquationOperatorCore(Point pointX, Point pointY)

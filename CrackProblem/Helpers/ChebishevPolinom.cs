@@ -5,20 +5,46 @@ namespace CrackProblem.Helpers
 {
     public class ChebishevPolinom
     {
-        public int Power { get; set; }
-        private IList<double> index;
-        public ChebishevPolinom(IList<double> indexes, int power) // y - array with length 2xn
+        public int N { get; private set; }
+        private IList<double> Coefficients { get; set; }
+
+        private const double Eps = 1E-3;
+
+        public ChebishevPolinom(IList<double> coefficients)
         {
-            Power = power;
-            if(indexes.Count < power + 1) throw new Exception("Not anough indexes for specified polinom power.");
-            index = indexes;
+            Coefficients = coefficients;
         }
-        public double Value(double x)
+        public double Value(double t)
         {
             double sum = 0;
-            for (int i = 0; i <= Power; i++)
+            for (int i = 0; i < Coefficients.Count; i++)
             {
-                sum += index[i]*Math.Cos(i*x);
+                sum += Coefficients[i] * Math.Cos(i * t);
+            }
+            return sum;
+        }
+        public bool Add(IList<double> coefficients)
+        {
+            for (int i = 0; i < Coefficients.Count; i++)
+            {
+                Coefficients[i] += coefficients[i];
+            }
+            return true;
+        }
+
+        public double Derivative(double t)
+        {
+            double sum = 0;
+            //for (int i = 0; i < Coefficients.Count; i++)
+            //{
+            //    sum += -Coefficients[i] * i * Math.Sin(i * t);
+            //}
+            var isSinZeroPoint = Math.Abs(t % Math.PI) < Eps;
+            for (int i = 0; i < Coefficients.Count; i++)
+            {
+                sum += Coefficients[i] * (isSinZeroPoint 
+                    ? i*i 
+                    : i * Math.Sin(i * t)/ Math.Abs(Math.Sin(t)));
             }
             return sum;
         }

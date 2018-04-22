@@ -8,24 +8,24 @@ using CrackProblem.Helpers;
 
 namespace CrackProblem.Tests
 {
-    public class FundamentalSolutionTestData : IDirectProblemTestData
-    {
-        public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
-        public Func<Point, double> OnOuterCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
-        public Func<Point, double> OnTestCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
+    //public class FundamentalSolutionTestData : IDirectProblemTestData
+    //{
+    //    public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
+    //    public Func<Point, double> OnOuterCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
+    //    public Func<Point, double> OnTestCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
 
-        private static double FundamentalSolution(Point x)
-        {
-            Point outerPoint = new Point(10, 0);
+    //    private static double FundamentalSolution(Point x)
+    //    {
+    //        Point outerPoint = new Point(10, 0);
 
-            double deviationAbs = Math.Sqrt(
-                Math.Pow(x.X - outerPoint.X, 2)
-                +
-                Math.Pow(x.Y - outerPoint.Y, 2));
+    //        double deviationAbs = Math.Sqrt(
+    //            Math.Pow(x.X - outerPoint.X, 2)
+    //            +
+    //            Math.Pow(x.Y - outerPoint.Y, 2));
 
-            double result = Math.Log(deviationAbs);
+    //        double result = Math.Log(deviationAbs);
 
-            return result;
-        }
-    }
+    //        return result;
+    //    }
+    //}
 }

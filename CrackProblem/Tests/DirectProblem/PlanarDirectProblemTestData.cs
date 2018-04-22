@@ -10,10 +10,17 @@ namespace CrackProblem.Tests
 {
     public class PlanarTestData : IDirectProblemTestData
     {
-        public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => 1; 
+        public Func<Point, double> OnCrackCurveValue { get; set; }
 
-        public Func<Point, double> OnOuterCurveValue { get; set; } = (Point p) => 1;
+        public Func<double, double> OnOuterCurveValue { get; set; } 
 
-        public Func<Point, double> OnTestCurveValue { get; set; } = (Point p) => 1;
+        public Func<Point, double> OnTestCurveValue { get; set; }
+
+        public PlanarTestData()
+        {
+            OnCrackCurveValue =  (Point p) => 1;
+            OnOuterCurveValue = (double p) => 1;
+            OnTestCurveValue = (Point p) => 1;
+        }
     }
 }

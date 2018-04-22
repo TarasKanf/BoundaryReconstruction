@@ -8,8 +8,10 @@ namespace CrackProblem.Helpers
     /// </summary>
     public class ApproxParametrizedCurve : IParametrizedCurve
     {
-        private readonly TrigonPolinom _xApproxPolinom;
-        private readonly TrigonPolinom _yApproxPolinom;
+        //public readonly ChebishevPolinom _xApproxPolinom;
+        //public readonly ChebishevPolinom _yApproxPolinom;
+        public readonly TrigonPolinom _xApproxPolinom;
+        public readonly TrigonPolinom _yApproxPolinom;
 
         public ApproxParametrizedCurve(TrigonPolinom xApproxPolinom, TrigonPolinom yApproxPolinom)
         {

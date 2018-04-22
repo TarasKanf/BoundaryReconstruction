@@ -52,6 +52,7 @@
     <Compile Include="Contracts\IDirectProblemTestData.cs" />
     <Compile Include="Helpers\ChebishevPolinom.cs" />
     <Compile Include="Helpers\ApproxParametrizedCurve.cs" />
+    <Compile Include="Helpers\TrigonPolinom.cs" />
     <Compile Include="Integrals\IntegralTwoCoreEquationDiscretezer.cs" />
     <Compile Include="InverseCrackProblemState.cs" />
     <Compile Include="DirectProblemState.cs" />
@@ -64,7 +65,6 @@
     <Compile Include="Helpers\ParametrizedSource.cs" />
     <Compile Include="Helpers\Printer.cs" />
     <Compile Include="Helpers\TihanovRegularization.cs" />
-    <Compile Include="Helpers\TrigonPolinom.cs" />
     <Compile Include="Integrals\Integral.cs" />
     <Compile Include="Integrals\IntegralEquationDiscretezer.cs" />
     <Compile Include="Integrals\DoubleCore.cs" />

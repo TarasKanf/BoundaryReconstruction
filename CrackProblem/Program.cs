@@ -23,31 +23,38 @@ namespace CrackProblem
 
             IInversProblemTestData testData = new PlanarInverseProblemTastData();
             InverseCrackProblemState state = new InverseCrackProblemState(radius, pointsNumber, chebishevpolinomPower, testData);
-            state.InnerCurve = new ParametrizedCurve(InnerXFuntion,InnerYFunction, InnerXFuntionDerivetive, InnerYFunctionDerivetive);
+            //var xCebPol = new ChebishevPolinom(new double[] { 0, 1.1, 0, 0, 0 });
+            //var yCebPol = new ChebishevPolinom(new double[] { 0, 1.1, 0, 0, 0 });
+
+            // set initial curve
+            state.InnerCurve = new ParametrizedCurve(InnerXFuntion, InnerYFunction, InnerXFuntionDerivetive, InnerYFunctionDerivetive);
             InverseProblemSolver solver = new InverseProblemSolver(state);
             solver.CalculateCurve();
         }
 
         private static double InnerXFuntion(double t)
         {
-            return Math.Cos(t) + 0.2; // TODO
+            //return Math.Cos(t) + 0.2; // TODO
+            return 0.5*Math.Cos(t);
         }
 
         private static double InnerXFuntionDerivetive(double t)
         {
-            return 1;
-            //return - Math.Sin(t);
+            //return 1;
+            //return (Math.Abs(t%Math.PI) > 0.0001)? -0.5*Math.Sin(t): 0.001; // better but wrong
+            return 0.5;
         }
 
         private static double InnerYFunction(double t)
         {
-            return Math.Cos(t) + 0.2; // TODO
+            //return Math.Cos(t) + 0.2; // TODO
+            return 0;
         }
 
         private static double InnerYFunctionDerivetive(double t)
         {
-            return 1;
-            //return - Math.Sin(t);
+            //return 1;
+            return 0;
         }
 
         public static void SolveDirectProblem()
@@ -57,7 +64,7 @@ namespace CrackProblem
 
             //IDirectProblemTestData testData = new PlanarTestData();
             //IDirectProblemTestData testData = new FundamentalSolutionTestData();
-            IDirectProblemTestData testData = new FundamentalSolutionDevidedTastData();
+            IDirectProblemTestData testData = null;//new FundamentalSolutionDevidedTastData();
             //IDirectProblemTestData testData = new CoordinatesDeviationDoubleTestData();
             DirectProblemState state = new DirectProblemState(radius, pointsNumber, testData);
             DirectProblemSolver solver = new DirectProblemSolver(state);

@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace CrackProblem.Tests
 {
-    public class CoordinatesDeviationDoubleTestData : IDirectProblemTestData
-    {
-        public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => Solution(p);
-        public Func<Point, double> OnOuterCurveValue { get; set; } = (Point p) => Solution(p);
-        public Func<Point, double> OnTestCurveValue { get; set; } = (Point p) => Solution(p);
+    //public class CoordinatesDeviationDoubleTestData : IDirectProblemTestData
+    //{
+    //    public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => Solution(p);
+    //    public Func<Point, double> OnOuterCurveValue { get; set; } = (Point p) => Solution(p);
+    //    public Func<Point, double> OnTestCurveValue { get; set; } = (Point p) => Solution(p);
 
-        private static double Solution(Point x)
-        {
-            double result = x.X * x.X - x.Y * x.Y;
+    //    private static double Solution(Point x)
+    //    {
+    //        double result = x.X * x.X - x.Y * x.Y;
 
-            return result;
-        }
-    }
+    //        return result;
+    //    }
+    //}
 }

@@ -88,27 +88,35 @@ namespace CrackProblem
                 (value, i) => _state.DerivativeOnOuterCurve[i] + value);
 
             var tihanovRegularization = new TihanovRegularization(matrix, rightPart, rightPart.Length, columnsNumber);
-            var lambda = 0.1;
+            var lambda = 0.001;
             var curveCorrection = tihanovRegularization.Solve(lambda);
             return curveCorrection;
         }
 
+        //private IParametrizedCurve BuildNewCurve(IParametrizedCurve currentCurve, IList<double> xCurveCorrection, IList<double> yCurveCorrection)
+        //{
+        //    var curve = currentCurve as ApproxParametrizedCurve;
+        //    curve._xApproxPolinom.Add(xCurveCorrection);
+        //    curve._yApproxPolinom.Add(yCurveCorrection);
+        //    return new ApproxParametrizedCurve(curve._xApproxPolinom, curve._yApproxPolinom);
+        //}
+
         private IParametrizedCurve BuildNewCurve(IParametrizedCurve currentCurve, IList<double> xCurveCorrection, IList<double> yCurveCorrection)
         {
-            var xChebishevpolinom = new ChebishevPolinom(xCurveCorrection, _state.CorrectionPolinomPower);
-            var yChebishevpolinom = new ChebishevPolinom(yCurveCorrection, _state.CorrectionPolinomPower);
+            var xChebishevpolinom = new ChebishevPolinom(xCurveCorrection);
+            var yChebishevpolinom = new ChebishevPolinom(yCurveCorrection);
             double[] points = IntegralEquationDiscretezer.GetDiscretePoints(_state.PointsNumber);
             double[] newXValues = new double[points.Length];
             double[] newYValues = new double[points.Length];
-            for (int i = 0; i < points.Length; i++)
+            for (int i = 0; i<points.Length; i++)
             {
                 newXValues[i] = _state.InnerCurve.GetX(points[i]) + xChebishevpolinom.Value(points[i]);
                 newYValues[i] = _state.InnerCurve.GetY(points[i]) + yChebishevpolinom.Value(points[i]);
             }
             return new ApproxParametrizedCurve(
                 new TrigonPolinom(newXValues, newXValues.Length / 2), 
-                new TrigonPolinom(newYValues, newYValues.Length/2));
-        }
+                new TrigonPolinom(newYValues, newYValues.Length / 2));
+       }
 
         private double[] GetCurveValues(IParametrizedCurve curve, double[] points, bool onX)
         {

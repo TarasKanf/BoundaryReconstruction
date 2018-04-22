@@ -73,6 +73,7 @@ namespace CrackProblem.Integrals
             ti = 0;
             for (int i = 0; i < PointsNumber; i++)
             {
+                
                 Core.Prepare(ti);             
                 sj = 0;
                 for (int j = 0; j < PointsNumber; j++)
