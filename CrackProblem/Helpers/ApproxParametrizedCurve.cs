@@ -10,10 +10,10 @@ namespace CrackProblem.Helpers
     {
         //public readonly ChebishevPolinom _xApproxPolinom;
         //public readonly ChebishevPolinom _yApproxPolinom;
-        public readonly TrigonPolinom _xApproxPolinom;
-        public readonly TrigonPolinom _yApproxPolinom;
+        public readonly ChebishevPolinom _xApproxPolinom;
+        public readonly ChebishevPolinom _yApproxPolinom;
 
-        public ApproxParametrizedCurve(TrigonPolinom xApproxPolinom, TrigonPolinom yApproxPolinom)
+        public ApproxParametrizedCurve(ChebishevPolinom xApproxPolinom, ChebishevPolinom yApproxPolinom)
         {
             _xApproxPolinom = xApproxPolinom;
             _yApproxPolinom = yApproxPolinom;

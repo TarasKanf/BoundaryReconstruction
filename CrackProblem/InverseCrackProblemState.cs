@@ -48,8 +48,11 @@ namespace CrackProblem
                 double derivetiveNorm = dx*dx + dy*dy;
                 double dataEquationCore = DataEquationOperatorCore(new Point(Radius*Math.Cos(t), Radius*Math.Sin(t)),
                     new Point(x, y));
-                coreSum += (2.0*Math.PI/PointsNumber)*Density[j]
-                           *(result*Math.Cos(k*sj) - dataEquationCore * k * dx * Math.Sin(k * sj) / derivetiveNorm); // чи правильна похідна полінома чебишова
+                coreSum += (2.0 * Math.PI / PointsNumber) * Density[j]
+                           * (result * Math.Cos(k * sj) + 2.0 * dataEquationCore * dx * ChebishevPolDerivative(k, sj) / derivetiveNorm); // 2.0 * dataEquationCore
+
+                //coreSum += (2.0 * Math.PI / PointsNumber) * Density[j]
+                //          * (result * Math.Cos(k * sj));
                 sj += H;
             }
             return coreSum;
@@ -76,11 +79,45 @@ namespace CrackProblem
                 double derivetiveNorm = dx * dx + dy * dy;
                 double dataEquationCore = DataEquationOperatorCore(new Point(Radius * Math.Cos(t), Radius * Math.Sin(t)),
                    new Point(x, y));
-                coreSum += (2.0*Math.PI/PointsNumber)*
-                           Density[j]*(result*Math.Cos(k*sj) - dataEquationCore * k * dy * Math.Sin(k * sj) / derivetiveNorm);// чи правильна похідна полінома чебишова
+                coreSum += (2.0 * Math.PI / PointsNumber) * Density[j]
+                    * (result * Math.Cos(k * sj) + 2.0 * dataEquationCore * dy * ChebishevPolDerivative(k, sj) / derivetiveNorm);// додано двійку без формули 2.0 * dataEquationCore
+
+                //coreSum += (2.0 * Math.PI / PointsNumber) * Density[j]
+                //    * (result * Math.Cos(k * sj));
                 sj += H;
             }
             return coreSum;
+        }
+
+        private double ChebishevPolDerivative(double power, double t)
+        {
+            //return -power*Math.Sin(power*t);
+            //var result = (t%Math.PI > 0.001)
+            //    ? Math.Sin(power*t)*power/(Math.Abs(Math.Sin(t)))
+            //    : power*power;
+            //var result = -Math.Sin(power*t)*power;
+            //var result = Math.Cos(power*t);
+            //var result = -power*Math.Sign(Math.Sin(t))*Math.Sin(power*Math.Acos(Math.Cos(t)));
+            var x = Math.Cos(t);
+            int powerInt = Convert.ToInt32(power);
+            double result = 0;
+            switch (powerInt)
+            {
+                case 0: result = 0; break;
+                case 1: result = 1; break;
+                case 2: result = 4 *x;
+                    break;
+                case 3: result = 12 *x*x - 3;
+                    break;
+                case 4: result = 32 *Math.Pow(x, 3) - 16*x;
+                    break;
+                case 5:result = 80*Math.Pow(x, 4) - 60*x*x + 5;
+                    break;
+                default:result = double.NaN;
+                    break;
+            }
+
+            return result;
         }
 
         private double LinDataEquationRightPartFucntion(double t)

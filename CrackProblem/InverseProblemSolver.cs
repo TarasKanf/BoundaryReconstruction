@@ -2,6 +2,7 @@
 using CrackProblem.Integrals;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CrackProblem.Helpers;
 using CrackProblem.LinearSystem;
 using CrackProblem.Tests;
@@ -47,12 +48,15 @@ namespace CrackProblem
             int iteration = 0;
             while (iteration < 6 )
             {
+                Printer.WriteLine($"ITERATION {iteration} ................................");
                 DirectProblemSolver solver = new DirectProblemSolver(_state);
                 _state.Density = solver.CalculateDensity();
                 Printer.WriteLine("Calculated density");
                 Printer.Write(_state.Density);
 
                 var curveCorrection = CalculateCurveCorrection();
+                Printer.WriteLine("Correction coefficients");
+                Printer.Write(curveCorrection);
                 var correctedCurve = BuildNewCurve(_state.InnerCurve,
                     new ArraySegment<double>(curveCorrection, 0, _state.CorrectionPolinomPower + 1),
                     new ArraySegment<double>(curveCorrection, _state.CorrectionPolinomPower + 1,
@@ -63,10 +67,14 @@ namespace CrackProblem
                 Printer.Write(GetCurveValues(_state.InversProblemTestData.CorrectInnerCurve, points, onX: true));
                 Printer.WriteLine("Solution curve x");
                 Printer.Write(GetCurveValues(correctedCurve, points, onX: true));
+                Printer.WriteLine("Solution curve x pol coeffients");
+                Printer.Write((correctedCurve as ApproxParametrizedCurve)._xApproxPolinom.Coefficients.ToArray());
                 Printer.WriteLine("Correct curve y");
                 Printer.Write(GetCurveValues(_state.InversProblemTestData.CorrectInnerCurve, points, onX: false));
                 Printer.WriteLine("Solution curve y");
                 Printer.Write(GetCurveValues(correctedCurve, points, onX: false));
+                Printer.WriteLine("Solution curve y pol coeffients");
+                Printer.Write((correctedCurve as ApproxParametrizedCurve)._yApproxPolinom.Coefficients.ToArray());
 
                 _state.InnerCurve = correctedCurve;
                 iteration++;
@@ -93,30 +101,30 @@ namespace CrackProblem
             return curveCorrection;
         }
 
-        //private IParametrizedCurve BuildNewCurve(IParametrizedCurve currentCurve, IList<double> xCurveCorrection, IList<double> yCurveCorrection)
-        //{
-        //    var curve = currentCurve as ApproxParametrizedCurve;
-        //    curve._xApproxPolinom.Add(xCurveCorrection);
-        //    curve._yApproxPolinom.Add(yCurveCorrection);
-        //    return new ApproxParametrizedCurve(curve._xApproxPolinom, curve._yApproxPolinom);
-        //}
-
         private IParametrizedCurve BuildNewCurve(IParametrizedCurve currentCurve, IList<double> xCurveCorrection, IList<double> yCurveCorrection)
         {
-            var xChebishevpolinom = new ChebishevPolinom(xCurveCorrection);
-            var yChebishevpolinom = new ChebishevPolinom(yCurveCorrection);
-            double[] points = IntegralEquationDiscretezer.GetDiscretePoints(_state.PointsNumber);
-            double[] newXValues = new double[points.Length];
-            double[] newYValues = new double[points.Length];
-            for (int i = 0; i<points.Length; i++)
-            {
-                newXValues[i] = _state.InnerCurve.GetX(points[i]) + xChebishevpolinom.Value(points[i]);
-                newYValues[i] = _state.InnerCurve.GetY(points[i]) + yChebishevpolinom.Value(points[i]);
-            }
-            return new ApproxParametrizedCurve(
-                new TrigonPolinom(newXValues, newXValues.Length / 2), 
-                new TrigonPolinom(newYValues, newYValues.Length / 2));
-       }
+            var curve = currentCurve as ApproxParametrizedCurve;
+            curve._xApproxPolinom.Add(xCurveCorrection);
+            curve._yApproxPolinom.Add(yCurveCorrection);
+            return curve;
+        }
+
+        // private IParametrizedCurve BuildNewCurve(IParametrizedCurve currentCurve, IList<double> xCurveCorrection, IList<double> yCurveCorrection)
+        // {
+        //     var xChebishevpolinom = new ChebishevPolinomOld(xCurveCorrection);
+        //     var yChebishevpolinom = new ChebishevPolinomOld(yCurveCorrection);
+        //     double[] points = IntegralEquationDiscretezer.GetDiscretePoints(_state.PointsNumber);
+        //     double[] newXValues = new double[points.Length];
+        //     double[] newYValues = new double[points.Length];
+        //     for (int i = 0; i<points.Length; i++)
+        //     {
+        //         newXValues[i] = _state.InnerCurve.GetX(points[i]) + xChebishevpolinom.Value(points[i]);
+        //         newYValues[i] = _state.InnerCurve.GetY(points[i]) + yChebishevpolinom.Value(points[i]);
+        //     }
+        //     return new ApproxParametrizedCurve(
+        //         new TrigonPolinom(newXValues, newXValues.Length / 2), 
+        //         new TrigonPolinom(newYValues, newYValues.Length / 2));
+        //}
 
         private double[] GetCurveValues(IParametrizedCurve curve, double[] points, bool onX)
         {

@@ -13,21 +13,43 @@ namespace CrackProblem
             Printer.Mode = WriteMode.File;
             //SolveDirectProblem();
             SolveInverseProblem();
+            IInversProblemTestData testData = new PlanarInverseProblemTastData();
+            //Func<double, double> func = (p) => 3.0 * Math.Cos(p)*Math.Cos(p) + 2;
+            //Func<double, double> derivative = (p) => 6.0 * Math.Cos(p);
+
+            //Func<double, double> func = (p) => testData.CorrectInnerCurve.GetY(p);
+            //Func<double, double> derivative = (p) => testData.CorrectInnerCurve.GetDerivetiveY(p);
+            //var pol = new ChebishevPolinom(func, 5);
+            //foreach (var coefficient in pol.Coefficients)
+            //{
+            //    Console.Write($"{coefficient};   ");
+            //}
+            //double param = 0;
+            //int N = 10;
+            //double step = 2.0 * Math.PI / N;
+            //while (param < 2.0 * Math.PI)
+            //{
+            //    //var deviation = Math.Abs(func(param) - pol.Value(param));
+            //    Console.WriteLine($"Real = {derivative(param)}");
+            //    Console.WriteLine($"Approx = {pol.Derivative(param)}");
+            //    param += step;
+            //}
+            //Console.ReadKey();
         }
 
         public static void SolveInverseProblem()
         {
             double radius = 2;
-            int pointsNumber = 16;
+            int pointsNumber = 32;
             int chebishevpolinomPower = 5;
 
             IInversProblemTestData testData = new PlanarInverseProblemTastData();
             InverseCrackProblemState state = new InverseCrackProblemState(radius, pointsNumber, chebishevpolinomPower, testData);
-            //var xCebPol = new ChebishevPolinom(new double[] { 0, 1.1, 0, 0, 0 });
-            //var yCebPol = new ChebishevPolinom(new double[] { 0, 1.1, 0, 0, 0 });
 
             // set initial curve
-            state.InnerCurve = new ParametrizedCurve(InnerXFuntion, InnerYFunction, InnerXFuntionDerivetive, InnerYFunctionDerivetive);
+            state.InnerCurve = new ApproxParametrizedCurve(
+                new ChebishevPolinom(InnerXFuntion, chebishevpolinomPower),
+                new ChebishevPolinom(InnerYFunction, chebishevpolinomPower));
             InverseProblemSolver solver = new InverseProblemSolver(state);
             solver.CalculateCurve();
         }
