@@ -49,7 +49,7 @@ namespace CrackProblem
                 double dataEquationCore = DataEquationOperatorCore(new Point(Radius*Math.Cos(t), Radius*Math.Sin(t)),
                     new Point(x, y));
                 coreSum += (2.0 * Math.PI / PointsNumber) * Density[j]
-                           * (result * Math.Cos(k * sj) + 2.0 * dataEquationCore * dx * ChebishevPolDerivative(k, sj) / derivetiveNorm); // 2.0 * dataEquationCore
+                           * (result * Math.Cos(k * sj) + dataEquationCore * dx * ChebishevPolDerivative(k, sj) / derivetiveNorm); // 2.0 * dataEquationCore
 
                 //coreSum += (2.0 * Math.PI / PointsNumber) * Density[j]
                 //          * (result * Math.Cos(k * sj));
@@ -80,7 +80,7 @@ namespace CrackProblem
                 double dataEquationCore = DataEquationOperatorCore(new Point(Radius * Math.Cos(t), Radius * Math.Sin(t)),
                    new Point(x, y));
                 coreSum += (2.0 * Math.PI / PointsNumber) * Density[j]
-                    * (result * Math.Cos(k * sj) + 2.0 * dataEquationCore * dy * ChebishevPolDerivative(k, sj) / derivetiveNorm);// додано двійку без формули 2.0 * dataEquationCore
+                    * (result * Math.Cos(k * sj) + dataEquationCore * dy * ChebishevPolDerivative(k, sj) / derivetiveNorm);// додано двійку без формули 2.0 * dataEquationCore
 
                 //coreSum += (2.0 * Math.PI / PointsNumber) * Density[j]
                 //    * (result * Math.Cos(k * sj));

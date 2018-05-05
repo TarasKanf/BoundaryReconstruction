@@ -75,6 +75,14 @@ namespace CrackProblem
                 Printer.Write(GetCurveValues(correctedCurve, points, onX: false));
                 Printer.WriteLine("Solution curve y pol coeffients");
                 Printer.Write((correctedCurve as ApproxParametrizedCurve)._yApproxPolinom.Coefficients.ToArray());
+                Printer.WriteLine("Correct curve derivative Y");
+                Printer.Write(GetCurveDerivativeValues(_state.InversProblemTestData.CorrectInnerCurve, points, onX: false));
+                Printer.WriteLine("Solution curve derivative Y");
+                Printer.Write(GetCurveDerivativeValues(correctedCurve, points, onX: false));
+                Printer.WriteLine("Correct curve derivative X");
+                Printer.Write(GetCurveDerivativeValues(_state.InversProblemTestData.CorrectInnerCurve, points, onX: true));
+                Printer.WriteLine("Solution curve derivative X");
+                Printer.Write(GetCurveDerivativeValues(correctedCurve, points, onX: true));
 
                 _state.InnerCurve = correctedCurve;
                 iteration++;
@@ -96,7 +104,7 @@ namespace CrackProblem
                 (value, i) => _state.DerivativeOnOuterCurve[i] + value);
 
             var tihanovRegularization = new TihanovRegularization(matrix, rightPart, rightPart.Length, columnsNumber);
-            var lambda = 0.001;
+            var lambda = 0.005;
             var curveCorrection = tihanovRegularization.Solve(lambda);
             return curveCorrection;
         }
@@ -132,6 +140,16 @@ namespace CrackProblem
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = onX ? curve.GetX(points[i]) : curve.GetY(points[i]);
+            }
+            return values;
+        }
+
+        private double[] GetCurveDerivativeValues(IParametrizedCurve curve, double[] points, bool onX)
+        {
+            double[] values = new double[_state.PointsNumber];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = onX ? curve.GetDerivetiveX(points[i]) : curve.GetDerivetiveY(points[i]);
             }
             return values;
         }

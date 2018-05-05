@@ -11,7 +11,7 @@ namespace CrackProblem.Tests
     //public class FundamentalSolutionTestData : IDirectProblemTestData
     //{
     //    public Func<Point, double> OnCrackCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
-    //    public Func<Point, double> OnOuterCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
+    //    public Func<double, double> OnOuterCurveValue { get; set; } = (double p) => FundamentalSolution(p);
     //    public Func<Point, double> OnTestCurveValue { get; set; } = (Point p) => FundamentalSolution(p);
 
     //    private static double FundamentalSolution(Point x)

@@ -13,7 +13,7 @@ namespace CrackProblem
             Printer.Mode = WriteMode.File;
             //SolveDirectProblem();
             SolveInverseProblem();
-            IInversProblemTestData testData = new PlanarInverseProblemTastData();
+            //IInversProblemTestData testData = new PlanarInverseProblemTastData();
             //Func<double, double> func = (p) => 3.0 * Math.Cos(p)*Math.Cos(p) + 2;
             //Func<double, double> derivative = (p) => 6.0 * Math.Cos(p);
 
@@ -40,7 +40,7 @@ namespace CrackProblem
         public static void SolveInverseProblem()
         {
             double radius = 2;
-            int pointsNumber = 32;
+            int pointsNumber = 16;
             int chebishevpolinomPower = 5;
 
             IInversProblemTestData testData = new PlanarInverseProblemTastData();
@@ -86,7 +86,8 @@ namespace CrackProblem
 
             //IDirectProblemTestData testData = new PlanarTestData();
             //IDirectProblemTestData testData = new FundamentalSolutionTestData();
-            IDirectProblemTestData testData = null;//new FundamentalSolutionDevidedTastData();
+            var outerCurve = new StarCurve((t) => radius);
+            IDirectProblemTestData testData = new FundamentalSolutionDevidedTastData(outerCurve);
             //IDirectProblemTestData testData = new CoordinatesDeviationDoubleTestData();
             DirectProblemState state = new DirectProblemState(radius, pointsNumber, testData);
             DirectProblemSolver solver = new DirectProblemSolver(state);
