@@ -1,4 +1,4 @@
-# crackProblem
+# BoundaryReconstruction
 Non-linear integral equation approach for
 the boundary reconstruction in
 double-connected planar domains
